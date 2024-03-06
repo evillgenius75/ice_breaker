@@ -1,11 +1,11 @@
 from dotenv import load_dotenv
 
 from langchain.chains import LLMChain
-from langchain_openai import ChatOpenAI
-from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import PromptTemplate
 
+from model_picker.llm_chooser import llm_chooser
 from third_parties.linkedin import scrape_linkedin_profile
+from agents.linkedin_lookup_agent import lookup as linkedin_lookup_agent
 
 if __name__ == "__main__":
     load_dotenv()
@@ -19,13 +19,13 @@ if __name__ == "__main__":
     summary_prompt_template = PromptTemplate(input_variables=["information"], template=summary_template)
 
     # llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
-    llm = ChatGoogleGenerativeAI(model="gemini-pro")
+    llm = llm_chooser()
 
     chain = LLMChain(llm=llm, prompt=summary_prompt_template)
 
+    linkedin_profile_url = linkedin_lookup_agent(name="Eden Marco")
     linkedin_data = scrape_linkedin_profile(
-        linkedin_profile_url="https://gist.githubusercontent.com/evillgenius75/a4afe97f0f8a233b5ee738167a5fefa5/raw"
-                             "/7028b8eef25dce9887440d21dc743afb7466af1d/linkedin.json"
+        linkedin_profile_url=linkedin_profile_url
     )
 
     print(chain.invoke(input={"information": linkedin_data})["text"])
