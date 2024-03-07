@@ -12,7 +12,7 @@ from agents.linkedin_lookup_agent import lookup as linkedin_lookup_agent
 
 
 def ice_break(name: str) -> Tuple[PersonIntel, str]:
-    linkedin_profile_url = linkedin_lookup_agent(name="Eden Marco")
+    linkedin_profile_url = linkedin_lookup_agent(name=name)
     linkedin_data = scrape_linkedin_profile(linkedin_profile_url=linkedin_profile_url)
     summary_template = """
         given the Linkedin information {information} about a person I want you to create:
@@ -42,5 +42,5 @@ def ice_break(name: str) -> Tuple[PersonIntel, str]:
 
 if __name__ == "__main__":
     load_dotenv()
-    res = ice_break(name="Eden Marco Udemy")
+    res = ice_break(name="Chen Goldberg")
     print(res)
