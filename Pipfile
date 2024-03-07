@@ -11,6 +11,7 @@ python-dotenv = "*"
 langchainhub = "*"
 google-search-results = "*"
 pydantic = "==v1.10.13"
+flask = "*"
 
 [dev-packages]
 
